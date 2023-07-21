@@ -1,9 +1,56 @@
-import axios from 'axios';
 import Notiflix from 'notiflix';
+import { getImages } from './getApi';
+import axios, { AxiosHeaders } from 'axios';
 
-Notiflix.Notify.info('Cogito ergo sum');
-axios
-  .get('https://pixabay.com/api/?key=38354710-a3d6b3af700cce2a78ac34292')
-  .then(response => response.data)
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+const refs = {
+  form: document.querySelector('.search-form'),
+  button: document.querySelector('button'),
+  input: document.querySelector('input'),
+  gallery: document.querySelector('.gallery'),
+};
+
+refs.button.addEventListener('click', e => {
+  e.preventDefault();
+
+  postImages(refs.input.value);
+});
+
+async function postImages(value) {
+  const desktop = await getImages(value)
+    .then(response => {
+      
+      if (response === undefined) {
+        throw new Error('error');
+      }
+
+      return response;
+    })
+    .catch(err => console.log(err));
+
+    
+  return  await desktop.map(image => {
+    console.log(image);
+    refs.gallery.insertAdjacentHTML(
+      'beforeend',
+      `<div class="photo-card">
+  <img src="${image.previewURL
+  }" alt="" loading="lazy" />
+  <div class="info">
+    <p class="info-item">
+    <b>Likes: ${image.likes}</b>
+    </p>
+    <p class="info-item">
+      <b>Views:${image.views}</b>
+    </p>
+    <p class="info-item">
+      <b>Comments:${image.comments}</b>
+    </p>
+    <p class="info-item">
+      <b>Downloads:${image.downloads}</b>
+    </p>
+  </div>
+</div>`
+    );
+  });
+ 
+}
