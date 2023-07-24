@@ -1,6 +1,5 @@
 import Notiflix, { Notify } from 'notiflix';
 import { getImages } from './getApi';
-import axios, { AxiosHeaders } from 'axios';
 
 const refs = {
   form: document.querySelector('.search-form'),
@@ -14,15 +13,19 @@ refs.button.disabled = true;
 refs.input.addEventListener('input', () => {
   refs.button.disabled = false;
 });
+
 const firstPage = 1;
 let nextPage = 2;
+let hits = 0;
+
+refs.loader.addEventListener('click', () => {
+  addImages(refs.input.value);
+});
 
 refs.button.addEventListener('click', e => {
   e.preventDefault();
-
   newImages(refs.input.value);
 });
-let hits = 0;
 
 async function newImages(value) {
   const desktop = await getImages(value, firstPage)
@@ -34,7 +37,6 @@ async function newImages(value) {
         refs.gallery.innerHTML = '';
         refs.loader.hidden = true;
 
-        
         Notiflix.Report.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
@@ -77,13 +79,9 @@ async function newImages(value) {
     );
   });
 }
-refs.loader.addEventListener('click', () => {
-  addImages(refs.input.value);
-});
 
 async function addImages(value) {
   refs.loader.hidden = true;
-
   const desktop = await getImages(value, nextPage)
     .then(resp => {
       hits += resp.data.hits.length;
@@ -100,11 +98,6 @@ async function addImages(value) {
           "We're sorry, but you've reached the end of search results."
         );
       }
-      // if (resp.data.hits.length === 0) {
-        
-      //   refs.loader.hidden = true;
-      // }
-
       return resp.data.hits;
     })
     .catch(err => {
