@@ -31,7 +31,10 @@ async function newImages(value) {
         throw new Error('error');
       }
       if (resp.data.hits.length === 0) {
-        resp.loader.hidden = true;
+        refs.gallery.innerHTML = '';
+        refs.loader.hidden = true;
+
+        
         Notiflix.Report.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
