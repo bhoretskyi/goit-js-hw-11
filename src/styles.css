@@ -18,13 +18,22 @@ button {
     border-radius: 10%;
 
 }
-.info {
+
+.photo-card {
     border: 1px solid black;
     padding: 5px;
+    
 }
 .load-more {
     width: 80px;
     margin-left: 50%;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.info-item {
+    color: black;
+    
+}
+a {
+    text-decoration: none;
 }

@@ -1,5 +1,9 @@
 import Notiflix, { Notify } from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { getImages } from './getApi';
+import simpleLightbox from 'simplelightbox';
+console.log(SimpleLightbox);
 
 const refs = {
   form: document.querySelector('.search-form'),
@@ -15,6 +19,14 @@ refs.input.addEventListener('input', e => {
   if (e.target.value === '') {
     refs.button.disabled = true;
   }
+});
+let gallery = new SimpleLightbox('.gallery a');
+gallery.on('show.simplelightbox', function () {
+  // do something…
+});
+
+gallery.on('error.simplelightbox', function (e) {
+  console.log(e); // some usefull information
 });
 
 const firstPage = 1;
@@ -57,12 +69,15 @@ async function newImages(value) {
       Notiflix.Report.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       )
-    );
+    )
+    .finally(console.log('efef'));
+
   return await desktop.map(image => {
+    console.log(image);
     refs.gallery.insertAdjacentHTML(
       'beforeend',
-      `<div class="photo-card">
-  <img src="${image.previewURL}" alt="" loading="lazy" />
+      `<a href="${image.largeImageURL}"><div class="photo-card">
+  <img src="${image.previewURL}" alt="" width="250" loading="lazy " />
   <div class="info">
     <p class="info-item">
     <b>Likes: ${image.likes}</b>
@@ -77,8 +92,9 @@ async function newImages(value) {
       <b>Downloads:${image.downloads}</b>
     </p>
   </div>
-</div>`
+</div></a>`
     );
+    gallery.refresh();
   });
 }
 
@@ -110,23 +126,24 @@ async function addImages(value) {
   return await desktop.map(image => {
     refs.gallery.insertAdjacentHTML(
       'beforeend',
-      `<div class="photo-card">
-  <img src="${image.previewURL}" alt="" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-    <b>Likes: ${image.likes}</b>
-    </p>
-    <p class="info-item">
-      <b>Views:${image.views}</b>
-    </p>
-    <p class="info-item">
-      <b>Comments:${image.comments}</b>
-    </p>
-    <p class="info-item">
-      <b>Downloads:${image.downloads}</b>
-    </p>
-  </div>
-</div>`
+      `<a href="${image.largeImageURL}"><div class="photo-card">
+      <img src="${image.previewURL}" alt="" width="250" loading="lazy " />
+      <div class="info">
+        <p class="info-item">
+        <b>Likes: ${image.likes}</b>
+        </p>
+        <p class="info-item">
+          <b>Views:${image.views}</b>
+        </p>
+        <p class="info-item">
+          <b>Comments:${image.comments}</b>
+        </p>
+        <p class="info-item">
+          <b>Downloads:${image.downloads}</b>
+        </p>
+      </div>
+    </div></a>`
     );
+    gallery.refresh();
   });
 }
