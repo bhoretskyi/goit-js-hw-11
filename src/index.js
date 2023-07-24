@@ -77,7 +77,7 @@ async function newImages(value) {
     refs.gallery.insertAdjacentHTML(
       'beforeend',
       `<a href="${image.largeImageURL}"><div class="photo-card">
-  <img src="${image.previewURL}" alt="" width="250" loading="lazy " />
+  <img src="${image.previewURL}" alt="${image.tags}" width="250" loading="lazy " />
   <div class="info">
     <p class="info-item">
     <b>Likes: ${image.likes}</b>
@@ -127,7 +127,7 @@ async function addImages(value) {
     refs.gallery.insertAdjacentHTML(
       'beforeend',
       `<a href="${image.largeImageURL}"><div class="photo-card">
-      <img src="${image.previewURL}" alt="" width="250" loading="lazy " />
+      <img src="${image.previewURL}" alt="${image.tags}" width="250" loading="lazy " />
       <div class="info">
         <p class="info-item">
         <b>Likes: ${image.likes}</b>
