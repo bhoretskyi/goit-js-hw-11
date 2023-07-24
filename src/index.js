@@ -94,12 +94,16 @@ async function addImages(value) {
       if (resp.data.totalHits > resp.config.params.per_page) {
         refs.loader.hidden = false;
       }
-      if (resp.data.hits.length === 0) {
+      if (resp.data.hits.length < resp.config.params.per_page) {
+        refs.loader.hidden = true;
         Notiflix.Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
-        refs.loader.hidden = true;
       }
+      // if (resp.data.hits.length === 0) {
+        
+      //   refs.loader.hidden = true;
+      // }
 
       return resp.data.hits;
     })
