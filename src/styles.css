@@ -15,9 +15,16 @@ body {
 button {
     border: 3px solid;
     background-color: blue;
+    border-radius: 10%;
 
 }
 .info {
     border: 1px solid black;
     padding: 5px;
+}
+.load-more {
+    width: 80px;
+    margin-left: 50%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

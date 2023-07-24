@@ -10,7 +10,7 @@ const refs = {
 };
 refs.loader.hidden = true;
 refs.button.disabled = true;
-refs.input.addEventListener('input', (e) => {
+refs.input.addEventListener('input', e => {
   refs.button.disabled = false;
   if (e.target.value === '') {
     refs.button.disabled = true;
@@ -19,7 +19,6 @@ refs.input.addEventListener('input', (e) => {
 
 const firstPage = 1;
 let nextPage = 2;
-let hits = 0;
 
 refs.loader.addEventListener('click', () => {
   addImages(refs.input.value);
@@ -47,7 +46,7 @@ async function newImages(value) {
       if (resp.data.hits.length > 0) {
         Notify.success(`Hooray! We found ${resp.data.totalHits} images.`);
       }
-      hits += resp.data.hits.length;
+
       if (resp.data.totalHits > resp.config.params.per_page) {
         refs.loader.hidden = false;
       }
@@ -87,7 +86,6 @@ async function addImages(value) {
   refs.loader.hidden = true;
   const desktop = await getImages(value, nextPage)
     .then(resp => {
-      hits += resp.data.hits.length;
       nextPage += 1;
       if (resp.status !== 200) {
         throw new Error('error');
