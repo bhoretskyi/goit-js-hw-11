@@ -10,8 +10,11 @@ const refs = {
 };
 refs.loader.hidden = true;
 refs.button.disabled = true;
-refs.input.addEventListener('input', () => {
+refs.input.addEventListener('input', (e) => {
   refs.button.disabled = false;
+  if (e.target.value === '') {
+    refs.button.disabled = true;
+  }
 });
 
 const firstPage = 1;
